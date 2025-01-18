@@ -1,6 +1,8 @@
 # Sonic Stream
 
-Demonstration application of [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode) nuget package.  Please see the `YoutubeExplode` documentation.
+Demonstration application of [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode) nuget package.  Please see the `YoutubeExplode` documentation.  
+
+This project is provided a proof of concept only and is not intended to be used to violate copyrights on any given source.  By downloading, executing or otherwise consuming the code in the project, and its referenced projects, you agree to abide by this stipulation.
 
 # Using
 
