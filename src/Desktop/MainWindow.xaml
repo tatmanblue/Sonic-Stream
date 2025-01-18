@@ -11,9 +11,28 @@
         <StackPanel Orientation="Vertical" Margin="25">
                 <Label FontSize="20">Sonic Stream</Label>
                 <StackPanel Orientation="Horizontal" Margin="0, 20">
-                        <Label VerticalAlignment="Center">Youtube URL:</Label>
-                        <TextBox MinWidth="400"></TextBox>
-                        <Button Margin="10, 10" MinWidth="40" Content="Check URL" Click="CheckUrlButton_Click"></Button>
+                        <Label VerticalAlignment="Center" Content="Youtube URL:"/>
+                        <TextBox MinWidth="400" 
+                                 MinHeight="40"
+                                 VerticalContentAlignment="Center"
+                                 Text="{Binding YoutubeUrl, UpdateSourceTrigger=PropertyChanged}"
+                                 x:Name="UrlTextBox" />
+                        <Button 
+                                Margin="10, 0" 
+                                Padding="10, 0"
+                                Content="Check URL" 
+                                Click="CheckUrlButton_Click"
+                                VerticalAlignment="Stretch"
+                                Height="{Binding ActualHeight, ElementName=UrlTextBox}" />
                 </StackPanel>
+                <!--
+                <StackPanel Orientation="Vertical" Margin="0, 20">
+                        <Label FontSize="14">Song Information</Label>
+                        <Label Content="{Binding SongInfo.Artist, TargetNullValue='Artist: Not available'}" />
+                        <Label Content="{Binding SongInfo.Title, TargetNullValue='Title: Not available'}" />
+                        <Label Content="{Binding SongInfo.Duration, TargetNullValue='Duration: Not available'}" />
+                </StackPanel>
+                -->
+                <Label Content="{Binding Message, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" x:Name="MessageLabel" />
         </StackPanel>
 </Window>

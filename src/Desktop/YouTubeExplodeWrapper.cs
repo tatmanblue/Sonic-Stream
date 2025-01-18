@@ -32,4 +32,17 @@ public class YouTubeExplodeWrapper(string videoUrl)
         
         return (temporaryAudioFile, video.Title);
     }
+
+    public async Task<SongInfo> CheckUrl()
+    {
+        var youtube = new YoutubeClient();
+        var video = await youtube.Videos.GetAsync(videoUrl);
+
+        var song = new SongInfo();
+        song.Title = video.Title; // "Collections - Blender 2.80 Fundamentals"
+        song.Artist = video.Author.ChannelTitle; // "Blender"
+        song.Duration = video.Duration.ToString();
+        
+        return song;
+    }
 }
