@@ -1,0 +1,19 @@
+﻿<Window x:Class="SonicStream.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SonicStream.Desktop"
+        mc:Ignorable="d"
+        Title="Sonic Stream" 
+        Height="450" 
+        Width="800">
+        <StackPanel Orientation="Vertical" Margin="25">
+                <Label FontSize="20">Sonic Stream</Label>
+                <StackPanel Orientation="Horizontal" Margin="0, 20">
+                        <Label VerticalAlignment="Center">Youtube URL:</Label>
+                        <TextBox MinWidth="400"></TextBox>
+                        <Button Margin="10, 10" MinWidth="40" Content="Check URL" Click="CheckUrlButton_Click"></Button>
+                </StackPanel>
+        </StackPanel>
+</Window>
