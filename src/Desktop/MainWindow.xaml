@@ -244,6 +244,14 @@
                                         <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.FileName, StringFormat='File: {0}', TargetNullValue='Not available'}" />
+                                        <Button 
+                                                Margin="10, 0" 
+                                                Padding="10, 0"
+                                                Content="Go to file" 
+                                                Click="BrowseSaveLocation_Click"
+                                                VerticalAlignment="Stretch"
+                                                Height="{Binding ActualHeight, ElementName=UrlTextBox}"
+                                        />  
                                 </StackPanel>
                                 <Button 
                                         Margin="10, 0" 

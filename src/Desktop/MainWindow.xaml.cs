@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
@@ -190,6 +191,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             ErrorMessage = ex.Message;
             Console.WriteLine(ex);
         }
+    }
+
+    private void BrowseSaveLocation_Click(object sender, RoutedEventArgs e)
+    {
+        Process.Start("explorer.exe" , SaveToDir);
     }
 
     private void RestartButton_Click(object sender, RoutedEventArgs e)
