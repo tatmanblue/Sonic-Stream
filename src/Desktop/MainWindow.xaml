@@ -8,6 +8,9 @@
         Title="Sonic Stream" 
         Height="450" 
         Width="800">
+        <Window.Resources>
+                <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter" /> 
+        </Window.Resources>        
         <StackPanel Orientation="Vertical" Margin="25">
                 <Label FontSize="20">Sonic Stream</Label>
                 <StackPanel Orientation="Horizontal" Margin="0, 20">
@@ -17,22 +20,34 @@
                                  VerticalContentAlignment="Center"
                                  Text="{Binding YoutubeUrl, UpdateSourceTrigger=PropertyChanged}"
                                  x:Name="UrlTextBox" />
+                </StackPanel>
+                <Button 
+                        Margin="10, 0" 
+                        Padding="10, 0"
+                        Content="Check URL" 
+                        Click="CheckUrlButton_Click"
+                        VerticalAlignment="Stretch"
+                        Height="{Binding ActualHeight, ElementName=UrlTextBox}"
+                />
+                <StackPanel 
+                        Orientation="Vertical" 
+                        Margin="0, 20"
+                        Visibility="{Binding SongInfo, Converter={StaticResource NullToVisibilityConverter}}"
+                        >
+                        <Label FontSize="14">Song Information</Label>
+                        <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
+                        <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
+                        <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
                         <Button 
                                 Margin="10, 0" 
                                 Padding="10, 0"
-                                Content="Check URL" 
-                                Click="CheckUrlButton_Click"
+                                Content="Extract MP3" 
+                                Click="ExtractButton_Click"
                                 VerticalAlignment="Stretch"
-                                Height="{Binding ActualHeight, ElementName=UrlTextBox}" />
+                                Height="{Binding ActualHeight, ElementName=UrlTextBox}"
+                        />                        
                 </StackPanel>
-                <!--
-                <StackPanel Orientation="Vertical" Margin="0, 20">
-                        <Label FontSize="14">Song Information</Label>
-                        <Label Content="{Binding SongInfo.Artist, TargetNullValue='Artist: Not available'}" />
-                        <Label Content="{Binding SongInfo.Title, TargetNullValue='Title: Not available'}" />
-                        <Label Content="{Binding SongInfo.Duration, TargetNullValue='Duration: Not available'}" />
-                </StackPanel>
-                -->
+                
                 <Label Content="{Binding Message, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" x:Name="MessageLabel" />
         </StackPanel>
 </Window>

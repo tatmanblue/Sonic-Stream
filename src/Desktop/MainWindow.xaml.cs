@@ -16,8 +16,9 @@ namespace SonicStream.Desktop;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow : Window, INotifyPropertyChanged
 {
+    
     private string youtubeUrl = "https://www.youtube.com/watch?v=E3VDW4aSn30";
     public string YoutubeUrl
     {
@@ -57,6 +58,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = this; // Set DataContext for binding
+        Message = "App Started ok";
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -65,30 +67,41 @@ public partial class MainWindow : Window
     {
         Console.WriteLine($"PropertyChanged: {propertyName}");
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        Console.WriteLine($"PropertyChanged event for {propertyName} was invoked.");
+    }
+
+    private void Stupid(object sender, RoutedEventArgs e)
+    {
+        Console.WriteLine($"Stupid to check: {youtubeUrl}");
+        Message = $"Stupid: {youtubeUrl}";
     }
     
     private async void CheckUrlButton_Click(object sender, RoutedEventArgs e)
     {
         try
         {
+            Console.WriteLine($"Clicked to check: {youtubeUrl}");
             Message = $"Checking: {youtubeUrl}";
             YouTubeExplodeWrapper details = new YouTubeExplodeWrapper(YoutubeUrl);
-            var result = details.CheckUrl().Result;
+            var result = await details.CheckUrl();
             this.SongInfo = result;
-            /*
-            details.CheckUrl().ContinueWith(task =>
-            {
-                if (task.IsCompletedSuccessfully)
-                {
-                    var result = task.Result;
-                    this.SongInfo = result;
-                }
-                else if (task.IsFaulted)
-                {
-                    MessageBox.Show(task.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            });            
-            */
+            Message = $"...done";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+    
+    private async void ExtractButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Console.WriteLine($"extracting: {youtubeUrl}");
+            Message = $"extracting audio: {youtubeUrl}";
+            YouTubeExplodeWrapper details = new YouTubeExplodeWrapper(YoutubeUrl);
+            (string file, string title) = await details.ExtractAudio();
+            Console.WriteLine($"saved to: {file}");
             Message = $"...done";
         }
         catch (Exception ex)

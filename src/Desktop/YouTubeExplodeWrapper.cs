@@ -8,7 +8,6 @@ namespace SonicStream.Desktop;
 /// Wraps access to
 ///
 /// uses: https://github.com/Tyrrrz/YoutubeExplode
-/// TODO, likely extract this into an interface
 /// </summary>
 public class YouTubeExplodeWrapper(string videoUrl)
 {
@@ -39,8 +38,8 @@ public class YouTubeExplodeWrapper(string videoUrl)
         var video = await youtube.Videos.GetAsync(videoUrl);
 
         var song = new SongInfo();
-        song.Title = video.Title; // "Collections - Blender 2.80 Fundamentals"
-        song.Artist = video.Author.ChannelTitle; // "Blender"
+        song.Title = video.Title; 
+        song.Artist = video.Author.ChannelTitle; 
         song.Duration = video.Duration.ToString();
         
         return song;
