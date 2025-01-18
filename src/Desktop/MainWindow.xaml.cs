@@ -19,6 +19,7 @@ namespace SonicStream.Desktop;
 public partial class MainWindow : Window, INotifyPropertyChanged
 {
 
+    #region ViewModel fields
     private ExtractStates state = ExtractStates.Gathering;
     public ExtractStates State
     {
@@ -62,7 +63,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    #endregion
     
+    #region View methods and handlers
     public MainWindow()
     {
         InitializeComponent();
@@ -79,12 +82,26 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         Console.WriteLine($"PropertyChanged event for {propertyName} was invoked.");
     }
     
+    protected override void OnMouseDown(MouseButtonEventArgs e)
+    {
+        if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+        {
+            this.DragMove();
+        }
+    }
+    #endregion
+    
     private void ChangeState(ExtractStates state)
     {
         State = state;
         string visualStateName = $"{state}View";
         Console.WriteLine($"State changed to {state}/'{visualStateName}'");
         VisualStateManager.GoToElementState(this.Body, visualStateName, true);
+    }
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        this.Close();
     }
     
     private async void CheckUrlButton_Click(object sender, RoutedEventArgs e)
@@ -115,6 +132,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             (string file, string title) = await details.ExtractAudio();
             Console.WriteLine($"saved to: {file}");
             SongInfo.FileName = file;
+            SongInfo = SongInfo;
             ChangeState(ExtractStates.Results);
         }
         catch (Exception ex)

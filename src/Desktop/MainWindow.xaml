@@ -6,12 +6,68 @@
         xmlns:local="clr-namespace:SonicStream.Desktop"
         mc:Ignorable="d"
         Title="Sonic Stream" 
+        Background="Transparent" 
+        AllowsTransparency="True" 
+        WindowStyle="None"
         Height="450" 
         Width="800">
         <Window.Resources>
-                <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter" /> 
+                <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+                <SolidColorBrush x:Key="CloseButtonBackground">
+                        <SolidColorBrush.Color>
+                                <Color R="165" G="165" B="0" />
+                        </SolidColorBrush.Color>
+                </SolidColorBrush>
+                <Style TargetType="StackPanel" x:Key="ExcitingStackPanelStyle">
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Margin" Value="10" />
+                        <Setter Property="Orientation" Value="Vertical" />
+
+                        <!-- Add a DropShadow effect for some depth -->
+                        <Setter Property="Effect">
+                                <Setter.Value>
+                                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="5" BlurRadius="10" Opacity="0.4"/>
+                                </Setter.Value>
+                        </Setter>
+
+                        <!-- Set a subtle gradient background -->
+                        <Setter Property="Background">
+                                <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#FFB3E5FC" Offset="0.0" />
+                                                <GradientStop Color="#FF8EC8F7" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                </Setter.Value>
+                        </Setter>
+                </Style>   
+                <Style TargetType="StackPanel" x:Key="ErrorStackPanelStyle">
+                        <Setter Property="Effect">
+                                <Setter.Value>
+                                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="5" BlurRadius="10" Opacity="0.4"/>
+                                </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background">
+                                <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#d9c7c7" Offset="0.0" />
+                                                <GradientStop Color="#dd6666" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                </Setter.Value>
+                        </Setter>
+                </Style>
         </Window.Resources>        
-        <StackPanel Orientation="Vertical" Margin="25">
+        <StackPanel Style="{StaticResource ExcitingStackPanelStyle}">
+                <Button Content="X"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="20" Height="20"
+                        Margin="0,10,10,0"
+                        Background="{StaticResource CloseButtonBackground}"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        Click="CloseButton_Click" />                
                 <Label FontSize="20">Sonic Stream</Label>
                 <StackPanel x:Name="Body">
                         <VisualStateManager.VisualStateGroups>
@@ -163,16 +219,19 @@
                                 x:Name="ResultsInfoPanel"
                                 Visibility="Collapsed">
                                 <Label FontSize="14">Song Downloaded</Label>
-                                <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
-                                <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
-                                <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
-                                <Label Content="{Binding SongInfo.FileName, StringFormat='File: {0}', TargetNullValue='Not available'}" />                                
+                                <StackPanel Margin="20, 0">
+                                        <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
+                                        <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
+                                        <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
+                                        <Label Content="{Binding SongInfo.FileName, StringFormat='File: {0}', TargetNullValue='Not available'}" />
+                                </StackPanel>
                         </StackPanel>                        
                         <StackPanel
                                 x:Name="ErrorInfoPanel"
+                                Style="{StaticResource ErrorStackPanelStyle}"
                                 Visibility="Collapsed">
                                 <Label Content="There was an error. Error reported is:" />
-                                <Label Content="{Binding ErrorMessage, StringFormat='EX: {0}'}" />
+                                <Label Content="{Binding ErrorMessage}" />
                                 <Button 
                                         Margin="10, 0" 
                                         Padding="10, 0"
