@@ -20,7 +20,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 {
 
     private ExtractStates state = ExtractStates.Gathering;
-
     public ExtractStates State
     {
         get => state;
@@ -53,15 +52,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
     }
 
-    private string message = "hello";
-
-    public string Message
+    private string errorMessage = "";
+    public string ErrorMessage
     {
-        get => message;
+        get => errorMessage;
         set
         {
-            message = value;
-            Console.WriteLine($"Message updated: {message}");
+            errorMessage = value;
             OnPropertyChanged();
         }
     }
@@ -70,8 +67,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         InitializeComponent();
         DataContext = this; // Set DataContext for binding
-        Message = "App Started ok";
-        ChangeState(ExtractStates.Extracting);
+        ChangeState(ExtractStates.Gathering);
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -88,7 +84,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         State = state;
         string visualStateName = $"{state}View";
         Console.WriteLine($"State changed to {state}/'{visualStateName}'");
-        VisualStateManager.GoToState(this, visualStateName, true);
+        VisualStateManager.GoToElementState(this.Body, visualStateName, true);
     }
     
     private async void CheckUrlButton_Click(object sender, RoutedEventArgs e)
@@ -97,14 +93,14 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             Console.WriteLine($"Clicked to check: {youtubeUrl}");
             ChangeState(ExtractStates.Checking);
-            Message = $"Checking: {youtubeUrl}";
             YouTubeExplodeWrapper details = new YouTubeExplodeWrapper(YoutubeUrl);
             var result = await details.CheckUrl();
             this.SongInfo = result;
-            Message = $"...done";
         }
         catch (Exception ex)
         {
+            ChangeState(ExtractStates.Error);
+            ErrorMessage = ex.Message;
             Console.WriteLine(ex);
         }
     }
@@ -114,15 +110,23 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         try
         {
             Console.WriteLine($"extracting: {youtubeUrl}");
-            Message = $"extracting audio: {youtubeUrl}";
+            ChangeState(ExtractStates.Extracting);
             YouTubeExplodeWrapper details = new YouTubeExplodeWrapper(YoutubeUrl);
             (string file, string title) = await details.ExtractAudio();
             Console.WriteLine($"saved to: {file}");
-            Message = $"...done";
+            SongInfo.FileName = file;
+            ChangeState(ExtractStates.Results);
         }
         catch (Exception ex)
         {
+            ChangeState(ExtractStates.Error);
+            ErrorMessage = ex.Message;
             Console.WriteLine(ex);
         }
+    }
+
+    private void RestartButton_Click(object sender, RoutedEventArgs e)
+    {
+        ChangeState(ExtractStates.Gathering);
     }
 }

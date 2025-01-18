@@ -13,11 +13,11 @@
         </Window.Resources>        
         <StackPanel Orientation="Vertical" Margin="25">
                 <Label FontSize="20">Sonic Stream</Label>
-                <StackPanel>
+                <StackPanel x:Name="Body">
                         <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="States">
                                         <VisualState x:Name="GatheringView">
-                                                <Storyboard>
+                                                <Storyboard> 
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GatherInfoPanel" Storyboard.TargetProperty="Visibility">
                                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                                                         </ObjectAnimationUsingKeyFrames>
@@ -27,6 +27,12 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractInfoPanel" Storyboard.TargetProperty="Visibility">
                                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
                                                         </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResultsInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ErrorInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
                                                 </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="CheckingView">
@@ -37,9 +43,15 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckInfoPanel" Storyboard.TargetProperty="Visibility">
                                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                                                         </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractPanel" Storyboard.TargetProperty="Visibility">
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractInfoPanel" Storyboard.TargetProperty="Visibility">
                                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
                                                         </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResultsInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ErrorInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
                                                 </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="ExtractingView">
@@ -53,11 +65,55 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractInfoPanel" Storyboard.TargetProperty="Visibility">
                                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                                                         </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResultsInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ErrorInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
+                                                </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="ResultsView">
+                                                <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GatherInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResultsInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ErrorInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
+                                                </Storyboard>
+                                        </VisualState>                                        
+                                        <VisualState x:Name="ErrorView">
+                                                <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GatherInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResultsInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ErrorInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        </ObjectAnimationUsingKeyFrames>                                                        
                                                 </Storyboard>
                                         </VisualState>
                                 </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <StackPanel x:Name="GatherInfoPanel">
+                        <StackPanel x:Name="GatherInfoPanel" Visibility="Visible">
                                 <StackPanel Orientation="Horizontal" Margin="0, 20">
                                         <Label VerticalAlignment="Center" Content="Youtube URL:"/>
                                         <TextBox MinWidth="400" 
@@ -77,13 +133,14 @@
                         </StackPanel>
                         <StackPanel
                                 x:Name="CheckInfoPanel"
+                                Visibility="Collapsed"
                                 >
+                                <Label FontSize="14">Song Information</Label>
                                 <StackPanel
                                         Orientation="Vertical" 
                                         Margin="0, 20"
+                                        Visibility="{Binding SongInfo, Converter={StaticResource NullToVisibilityConverter}}"
                                         >
-                                        <!-- Visibility="{Binding SongInfo, Converter={StaticResource NullToVisibilityConverter}}" -->
-                                        <Label FontSize="14">Song Information</Label>
                                         <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
@@ -98,10 +155,33 @@
                                 />                                
                         </StackPanel>
                         <StackPanel
-                                x:Name="ExtractInfoPanel">
+                                x:Name="ExtractInfoPanel"
+                                Visibility="Collapsed">
                                 <Label Content="Extracting...."></Label>
                         </StackPanel>
+                        <StackPanel
+                                x:Name="ResultsInfoPanel"
+                                Visibility="Collapsed">
+                                <Label FontSize="14">Song Downloaded</Label>
+                                <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
+                                <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
+                                <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
+                                <Label Content="{Binding SongInfo.FileName, StringFormat='File: {0}', TargetNullValue='Not available'}" />                                
+                        </StackPanel>                        
+                        <StackPanel
+                                x:Name="ErrorInfoPanel"
+                                Visibility="Collapsed">
+                                <Label Content="There was an error. Error reported is:" />
+                                <Label Content="{Binding ErrorMessage, StringFormat='EX: {0}'}" />
+                                <Button 
+                                        Margin="10, 0" 
+                                        Padding="10, 0"
+                                        Content="Back to Start" 
+                                        Click="RestartButton_Click"
+                                        VerticalAlignment="Stretch"
+                                        Height="{Binding ActualHeight, ElementName=UrlTextBox}"
+                                />  
+                        </StackPanel>
                 </StackPanel>
-                <Label Content="{Binding Message, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" x:Name="MessageLabel" />
         </StackPanel>
 </Window>

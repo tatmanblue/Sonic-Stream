@@ -5,5 +5,6 @@ public enum ExtractStates
     Gathering,
     Checking,
     Extracting,
+    Results,
     Error
 }
