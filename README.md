@@ -8,23 +8,22 @@ Run the application.  This may vary depending on how you installed or built it a
 
 ## Step 1
 Copy the youtube url into the edit field on this screen and click `Check Url`  
-![Step 1](./docs/step1.png)  
+![Step 1](./doc/step1.png)  
 
 ## Step 2
 Wait until you see this screen completely showing.  Enter or browse a folder (directory) and filenanme if these fields are empty or you want something different.  
-![Step 2](./docs/step2.png)  
+![Step 2](./doc/step2.png)  
 
 ## Step 3
-![Step 3a](./docs/step3a.png)    
+![Step 3a](./doc/step3a.png)    
 
 The above screen will appear.  There is no animations or anything so just wait patiently.  Depending on the video and your internet speed this might take a few minutes or longer.  
 
-![Step 3b](./docs/step3b.png)    
+![Step 3b](./doc/step3b.png)    
 You will see this screen on completion.
 
 ## Errors
 There is an error screen.  It doesn't show much.  Hopefully you won't have any issues.
-
 
 
 
