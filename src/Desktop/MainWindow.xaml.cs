@@ -2,14 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+
 
 namespace SonicStream.Desktop;
 
@@ -63,11 +60,50 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    
+    private string saveToDir = String.Empty;
+    public string SaveToDir
+    {
+        get => saveToDir;
+        set
+        {
+            saveToDir = value;
+            OnPropertyChanged();
+            FullPath = saveToDir; // hacky way to OnPropertyChanged() for FullPath
+        }
+    }
+    
+    private string fileName = String.Empty;
+    public string FileName
+    {
+        get => fileName;
+        set
+        {
+            fileName = value;
+            OnPropertyChanged();
+            FullPath = fileName; // hacky way to OnPropertyChanged() for FullPath
+        }
+    }
+    
+    private string fullPath = String.Empty;
+
+    public string FullPath
+    {
+        get => fullPath;
+        set
+        {
+            fullPath = System.IO.Path.Combine(SaveToDir, FileName);
+            OnPropertyChanged();
+        }
+    }
     #endregion
     
     #region View methods and handlers
     public MainWindow()
     {
+        string userDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        SaveToDir = System.IO.Path.Combine(userDir, "SonicStream");
+        
         InitializeComponent();
         DataContext = this; // Set DataContext for binding
         ChangeState(ExtractStates.Gathering);
@@ -104,6 +140,18 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         this.Close();
     }
     
+    private void ChooseDirectory_Click(object sender, RoutedEventArgs e)
+    {
+        var folderBrowser = new OpenFolderDialog();
+        folderBrowser.InitialDirectory = SaveToDir;
+        folderBrowser.Title = "Choose Directory";
+
+        if (folderBrowser.ShowDialog() == true)
+        {
+            SaveToDir = folderBrowser.FolderName;
+        }
+    }
+    
     private async void CheckUrlButton_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -113,6 +161,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             YouTubeExplodeWrapper details = new YouTubeExplodeWrapper(YoutubeUrl);
             var result = await details.CheckUrl();
             this.SongInfo = result;
+            FileName = $"{SongInfo.Artist}-{SongInfo.Title}.mp3";
         }
         catch (Exception ex)
         {
@@ -129,7 +178,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             Console.WriteLine($"extracting: {youtubeUrl}");
             ChangeState(ExtractStates.Extracting);
             YouTubeExplodeWrapper details = new YouTubeExplodeWrapper(YoutubeUrl);
-            (string file, string title) = await details.ExtractAudio();
+            (string file, string title) = await details.ExtractAudio(System.IO.Path.Combine(SaveToDir, FileName));
             Console.WriteLine($"saved to: {file}");
             SongInfo.FileName = file;
             SongInfo = SongInfo;

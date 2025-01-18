@@ -13,29 +13,40 @@
         Width="800">
         <Window.Resources>
                 <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-                <SolidColorBrush x:Key="CloseButtonBackground">
-                        <SolidColorBrush.Color>
-                                <Color R="165" G="165" B="0" />
-                        </SolidColorBrush.Color>
-                </SolidColorBrush>
+                <Style TargetType="Label">
+                        <Setter Property="FontSize" Value="14" />
+                </Style>
+                <Style TargetType="TextBox">
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="MinWidth" Value="400" /> 
+                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+                <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="Background" Value="#FF4CAF50" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Padding" Value="10,5" />
+                        <Setter Property="BorderThickness" Value="2" />
+                        <Setter Property="BorderBrush" Value="#FF388E3C" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+                <SolidColorBrush x:Key="CloseButtonBackground" Color="#044b71" />
                 <Style TargetType="StackPanel" x:Key="ExcitingStackPanelStyle">
-                        <Setter Property="Background" Value="White" />
                         <Setter Property="Margin" Value="10" />
                         <Setter Property="Orientation" Value="Vertical" />
-
-                        <!-- Add a DropShadow effect for some depth -->
                         <Setter Property="Effect">
                                 <Setter.Value>
-                                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="5" BlurRadius="10" Opacity="0.4"/>
+                                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="5" BlurRadius="10"
+                                                          Opacity="0.4" />
                                 </Setter.Value>
                         </Setter>
-
-                        <!-- Set a subtle gradient background -->
                         <Setter Property="Background">
                                 <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                <GradientStop Color="#FFB3E5FC" Offset="0.0" />
-                                                <GradientStop Color="#FF8EC8F7" Offset="1.0" />
+                                                <GradientStop Color="#c0d0dc" Offset="0.0" />
+                                                <GradientStop Color="#7ba2c1" Offset="1.0" />
                                         </LinearGradientBrush>
                                 </Setter.Value>
                         </Setter>
@@ -58,6 +69,7 @@
         </Window.Resources>        
         <StackPanel Style="{StaticResource ExcitingStackPanelStyle}">
                 <Button Content="X"
+                        Style="{x:Null}" 
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Width="20" Height="20"
@@ -68,7 +80,7 @@
                         BorderBrush="Gray"
                         BorderThickness="1"
                         Click="CloseButton_Click" />                
-                <Label FontSize="20">Sonic Stream</Label>
+                <Label FontSize="28">Sonic Stream</Label>
                 <StackPanel x:Name="Body">
                         <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="States">
@@ -172,10 +184,7 @@
                         <StackPanel x:Name="GatherInfoPanel" Visibility="Visible">
                                 <StackPanel Orientation="Horizontal" Margin="0, 20">
                                         <Label VerticalAlignment="Center" Content="Youtube URL:"/>
-                                        <TextBox MinWidth="400" 
-                                                 MinHeight="40"
-                                                 VerticalContentAlignment="Center"
-                                                 Text="{Binding YoutubeUrl, UpdateSourceTrigger=PropertyChanged}"
+                                        <TextBox Text="{Binding YoutubeUrl, UpdateSourceTrigger=PropertyChanged}"
                                                  x:Name="UrlTextBox" />
                                 </StackPanel>
                                 <Button 
@@ -194,12 +203,22 @@
                                 <Label FontSize="14">Song Information</Label>
                                 <StackPanel
                                         Orientation="Vertical" 
-                                        Margin="0, 20"
+                                        Margin="20, 10"
                                         Visibility="{Binding SongInfo, Converter={StaticResource NullToVisibilityConverter}}"
                                         >
                                         <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
+                                        <StackPanel Orientation="Horizontal">
+                                                <Label Content="Export to:"/>
+                                                <TextBox Text="{Binding SaveToDir, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <Button Content="Choose Dir" Click="ChooseDirectory_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                                <Label Content="Filename:"/>
+                                                <TextBox Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                        <Label FontSize="10" Content="{Binding FullPath}" />
                                 </StackPanel>
                                 <Button 
                                         Margin="10, 0" 
@@ -207,24 +226,33 @@
                                         Content="Extract MP3" 
                                         Click="ExtractButton_Click"
                                         VerticalAlignment="Stretch"
+                                        Visibility="{Binding SongInfo, Converter={StaticResource NullToVisibilityConverter}}"
                                         Height="{Binding ActualHeight, ElementName=UrlTextBox}"
                                 />                                
                         </StackPanel>
                         <StackPanel
                                 x:Name="ExtractInfoPanel"
                                 Visibility="Collapsed">
-                                <Label Content="Extracting...."></Label>
+                                <Label HorizontalAlignment="Center" FontSize="24" Content="Extracting...."></Label>
                         </StackPanel>
                         <StackPanel
                                 x:Name="ResultsInfoPanel"
                                 Visibility="Collapsed">
                                 <Label FontSize="14">Song Downloaded</Label>
-                                <StackPanel Margin="20, 0">
+                                <StackPanel Margin="20, 10">
                                         <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
                                         <Label Content="{Binding SongInfo.FileName, StringFormat='File: {0}', TargetNullValue='Not available'}" />
                                 </StackPanel>
+                                <Button 
+                                        Margin="10, 0" 
+                                        Padding="10, 0"
+                                        Content="Back to Start" 
+                                        Click="RestartButton_Click"
+                                        VerticalAlignment="Stretch"
+                                        Height="{Binding ActualHeight, ElementName=UrlTextBox}"
+                                />
                         </StackPanel>                        
                         <StackPanel
                                 x:Name="ErrorInfoPanel"

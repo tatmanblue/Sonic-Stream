@@ -11,7 +11,7 @@ namespace SonicStream.Desktop;
 /// </summary>
 public class YouTubeExplodeWrapper(string videoUrl)
 {
-    public async Task<(string, string)> ExtractAudio()
+    public async Task<(string, string)> ExtractAudio(string filename)
     {
         var youtube = new YoutubeClient();
         var video = await youtube.Videos.GetAsync(videoUrl);
@@ -23,13 +23,17 @@ public class YouTubeExplodeWrapper(string videoUrl)
             .GetWithHighestBitrate();
             
         // not perfect as it leaves a file on the system
+        /*
         string temporaryAudioFile = $"{Path.Combine(Path.GetTempPath(), Path.GetRandomFileName())}.mp3";
         if (File.Exists(temporaryAudioFile))
             File.Delete(temporaryAudioFile);
-            
-        await youtube.Videos.Streams.DownloadAsync(audioStreamInfo, temporaryAudioFile);
+        */
         
-        return (temporaryAudioFile, video.Title);
+        if (File.Exists(filename))
+            File.Delete(filename);
+        await youtube.Videos.Streams.DownloadAsync(audioStreamInfo, filename);
+        
+        return (filename, video.Title);
     }
 
     public async Task<SongInfo> CheckUrl()
