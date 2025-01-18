@@ -13,41 +13,95 @@
         </Window.Resources>        
         <StackPanel Orientation="Vertical" Margin="25">
                 <Label FontSize="20">Sonic Stream</Label>
-                <StackPanel Orientation="Horizontal" Margin="0, 20">
-                        <Label VerticalAlignment="Center" Content="Youtube URL:"/>
-                        <TextBox MinWidth="400" 
-                                 MinHeight="40"
-                                 VerticalContentAlignment="Center"
-                                 Text="{Binding YoutubeUrl, UpdateSourceTrigger=PropertyChanged}"
-                                 x:Name="UrlTextBox" />
+                <StackPanel>
+                        <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="States">
+                                        <VisualState x:Name="GatheringView">
+                                                <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GatherInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="CheckingView">
+                                                <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GatherInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="ExtractingView">
+                                                <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GatherInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExtractInfoPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                        </VisualState>
+                                </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <StackPanel x:Name="GatherInfoPanel">
+                                <StackPanel Orientation="Horizontal" Margin="0, 20">
+                                        <Label VerticalAlignment="Center" Content="Youtube URL:"/>
+                                        <TextBox MinWidth="400" 
+                                                 MinHeight="40"
+                                                 VerticalContentAlignment="Center"
+                                                 Text="{Binding YoutubeUrl, UpdateSourceTrigger=PropertyChanged}"
+                                                 x:Name="UrlTextBox" />
+                                </StackPanel>
+                                <Button 
+                                        Margin="10, 0" 
+                                        Padding="10, 0"
+                                        Content="Check URL" 
+                                        Click="CheckUrlButton_Click"
+                                        VerticalAlignment="Stretch"
+                                        Height="{Binding ActualHeight, ElementName=UrlTextBox}"
+                                />
+                        </StackPanel>
+                        <StackPanel
+                                x:Name="CheckInfoPanel"
+                                >
+                                <StackPanel
+                                        Orientation="Vertical" 
+                                        Margin="0, 20"
+                                        >
+                                        <!-- Visibility="{Binding SongInfo, Converter={StaticResource NullToVisibilityConverter}}" -->
+                                        <Label FontSize="14">Song Information</Label>
+                                        <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
+                                        <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
+                                        <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
+                                </StackPanel>
+                                <Button 
+                                        Margin="10, 0" 
+                                        Padding="10, 0"
+                                        Content="Extract MP3" 
+                                        Click="ExtractButton_Click"
+                                        VerticalAlignment="Stretch"
+                                        Height="{Binding ActualHeight, ElementName=UrlTextBox}"
+                                />                                
+                        </StackPanel>
+                        <StackPanel
+                                x:Name="ExtractInfoPanel">
+                                <Label Content="Extracting...."></Label>
+                        </StackPanel>
                 </StackPanel>
-                <Button 
-                        Margin="10, 0" 
-                        Padding="10, 0"
-                        Content="Check URL" 
-                        Click="CheckUrlButton_Click"
-                        VerticalAlignment="Stretch"
-                        Height="{Binding ActualHeight, ElementName=UrlTextBox}"
-                />
-                <StackPanel 
-                        Orientation="Vertical" 
-                        Margin="0, 20"
-                        Visibility="{Binding SongInfo, Converter={StaticResource NullToVisibilityConverter}}"
-                        >
-                        <Label FontSize="14">Song Information</Label>
-                        <Label Content="{Binding SongInfo.Artist, StringFormat='Artist: {0}', TargetNullValue='Not available'}" />
-                        <Label Content="{Binding SongInfo.Title, StringFormat='Title: {0}', TargetNullValue='Not available'}" />
-                        <Label Content="{Binding SongInfo.Duration, StringFormat='Duration: {0}', TargetNullValue='Not available'}" />
-                        <Button 
-                                Margin="10, 0" 
-                                Padding="10, 0"
-                                Content="Extract MP3" 
-                                Click="ExtractButton_Click"
-                                VerticalAlignment="Stretch"
-                                Height="{Binding ActualHeight, ElementName=UrlTextBox}"
-                        />                        
-                </StackPanel>
-                
                 <Label Content="{Binding Message, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" x:Name="MessageLabel" />
         </StackPanel>
 </Window>

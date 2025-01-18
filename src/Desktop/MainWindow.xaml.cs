@@ -18,6 +18,18 @@ namespace SonicStream.Desktop;
 /// </summary>
 public partial class MainWindow : Window, INotifyPropertyChanged
 {
+
+    private ExtractStates state = ExtractStates.Gathering;
+
+    public ExtractStates State
+    {
+        get => state;
+        set
+        {
+            state = value;
+            OnPropertyChanged();
+        }
+    }
     
     private string youtubeUrl = "https://www.youtube.com/watch?v=E3VDW4aSn30";
     public string YoutubeUrl
@@ -59,6 +71,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         InitializeComponent();
         DataContext = this; // Set DataContext for binding
         Message = "App Started ok";
+        ChangeState(ExtractStates.Extracting);
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -69,11 +82,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         Console.WriteLine($"PropertyChanged event for {propertyName} was invoked.");
     }
-
-    private void Stupid(object sender, RoutedEventArgs e)
+    
+    private void ChangeState(ExtractStates state)
     {
-        Console.WriteLine($"Stupid to check: {youtubeUrl}");
-        Message = $"Stupid: {youtubeUrl}";
+        State = state;
+        string visualStateName = $"{state}View";
+        Console.WriteLine($"State changed to {state}/'{visualStateName}'");
+        VisualStateManager.GoToState(this, visualStateName, true);
     }
     
     private async void CheckUrlButton_Click(object sender, RoutedEventArgs e)
@@ -81,6 +96,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         try
         {
             Console.WriteLine($"Clicked to check: {youtubeUrl}");
+            ChangeState(ExtractStates.Checking);
             Message = $"Checking: {youtubeUrl}";
             YouTubeExplodeWrapper details = new YouTubeExplodeWrapper(YoutubeUrl);
             var result = await details.CheckUrl();
