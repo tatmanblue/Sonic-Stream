@@ -1,11 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Shapes;
 using Microsoft.Win32;
 
 

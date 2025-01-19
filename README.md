@@ -2,7 +2,7 @@
 
 Demonstration application of [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode) nuget package.  Please see the `YoutubeExplode` documentation.  
 
-This project is provided a proof of concept only and is not intended to be used to violate copyrights on any given source.  By downloading, executing or otherwise consuming the code in the project, and its referenced projects, you agree to abide by this stipulation.
+This project constitutes a proof-of-concept demonstration solely and is not designed or intended for the infringement of any intellectual property rights. By accessing, utilizing, copying code in whole or part, or otherwise interacting with the code within this project, and any related projects referenced herein, you explicitly acknowledge and agree to adhere to this limitation and to refrain from any activities that may constitute copyright infringement.
 
 # Using
 
