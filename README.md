@@ -28,6 +28,11 @@ You will see this screen on completion.
 There is an error screen.  It doesn't show much.  Hopefully you won't have any issues.
 
 
+# Development
+You can use any editor.  Solution and project files are included for use with Visual Studio (both PC and Mac).  If you chose to use a different IDE please make sure the solution and projects files are correctly updated in your pull request.
+
+> dotnet --version  
+> 8.0.200
 
 ## Building
 I do not intend on covering that here as I expect you can build .net applications.  Feel free to contact me if you have any issues.
@@ -47,11 +52,5 @@ the libraries and demos in this project.  The license here does not apply to 3rd
 ## Legal
 If you have any questions about the content of the repository, please email [matt.raffel@gmail.com](mailto:matt.raffel@gmail.com). I can assure you all content has been developed by me or purchased and licensed to me. Proof will be made available on request. Repeated DCMA counterfit and harassment claims will result in counter suits per Section 512(f) of the DMCA penalties for _misrepresentation can include actual damages and attorney’s fees_.
 
-# Development
-You can use any editor.  Solution and project files are included for use with
-Visual Studio (both PC and Mac).  If you chose to use a different IDE please
-make sure the solution and projects files are correctly updated in your pull request.
 
-> dotnet --version  
-> 8.0.200
 

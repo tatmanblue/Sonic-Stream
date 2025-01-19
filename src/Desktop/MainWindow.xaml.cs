@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -99,7 +100,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     #region View methods and handlers
     public MainWindow()
     {
-        string userDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string userDir = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         SaveToDir = System.IO.Path.Combine(userDir, "SonicStream");
         
         InitializeComponent();
@@ -141,6 +142,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void ChooseDirectory_Click(object sender, RoutedEventArgs e)
     {
         var folderBrowser = new OpenFolderDialog();
+        
+        if (false == Directory.Exists(SaveToDir))
+            Directory.CreateDirectory(SaveToDir);
+        
         folderBrowser.InitialDirectory = SaveToDir;
         folderBrowser.Title = "Choose Directory";
 
